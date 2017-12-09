@@ -1,0 +1,119 @@
+Spyridoula Chrysikopoulou-Soldatou and Jeremy Williams
+
+Lab WK #1 - Module I: Linux scripting
+November 11, 2017
+
+Download jan2017articles.csv and example.bed files to solve the next
+questions.
+
+Q1(1 point):
+Take a look at the last 10 lines of the file. Which command are you going to use? 
+Modify the command to show just the last line of the file.
+
+tail jan2017articles.csv
+tail -n1 jan2017articles.csv
+
+
+Q2 (1p):
+Extract all lines that belong to January 6th from the file and store them in a new file named “reyes.csv". Check that the first line of the new file has the expected values.
+
+grep -i "^06 Jan" jan2017articles.csv > reyes.csv | head -n1 reyes.csv
+
+
+Q3 (1p):
+Use the original csv to find which entries have 0 at the comment count only for those entries from january 25th
+
+awk -F ',' '$5 ~0' jan2017articles.csv | grep -i -n '^25 Jan'
+
+
+Q4 (1p):
+Now count the number of entries of Q3 and compare with the total number of entries 
+
+awk -F ',' '$5 ~0' jan2017articles.csv | grep -i -n '^25 Jan' | wc -l
+and 
+wc -l jan2017articles.csv
+
+
+Q5 (1p):
+Now use example.bed file. In this file, we are interested in the exon sizes of each entry. They are located in field number 11. Now you have to get the exon sizes of the first 10 entries of the file.
+
+cut -f11 example.bed | head
+
+
+Q5 (1p):
+How would you remove the last comma?
+
+cut -f11 example.bed | sed -e 's/,$//' | head
+
+
+Q6 (1p):
+How would get the smallest size from each of the records? The result should provide a number for each line of the input
+cut -f11 example.bed | sed -e 's/,/ /g' | awk '{m=$1;for(i=1;i<=NF;i++)if($i<m)m=$i;print m}' | head
+
+Q7 (1p):
+How would you now sort the records so that the first number shown is the smallest exon size? Again, the answer must provide a sorted list of numbers for each line of the input
+
+cut -f11 example.bed | sed -e 's/,/ /g' | awk '{for (i=1;i<NF;i++){for(j=i+1;j<=NF;j++){if($i>$j){temp=$j;$j=$i;$i=temp}}}print}' | head
+
+
+Q8 (1p):
+Now Get the 10 largest exons of chr1 stored in example.bed.
+
+cut -f1,11 example.bed | grep "^chr1" | cut -f2 | sed -e 's/,/ /g' | awk '{m=$1;for(i=1;i<=NF;i++)if($i>m)m=$i;print m}' | sort -n -r | uniq | head
+
+
+Q9 (1p):
+now modify Q8 script to receive as a parameter the number of exons to search for
+
+A bash script with name q9.sh was created in order to give the user the possibility of giving a number.
+
+#!/bin/bash
+read -p  "Give the number of exons to search for:" number
+echo "The $number largest exons of chr1 are:"
+cut -f1,11 example.bed | grep "^chr1" |cut -f2 | sed -e 's/,/ /g' |
+ awk '{m=$1;for(i=1;i<=NF;i++)if($i>m)m=$i;print m}' | sort -n -r | uniq | head -$number
+
+Then we make our script executable with the command: chmode +x q9.sh
+And afterwards we can run it: ./q9.sh
+
+
+Q10 (1p):
+Get the first 10 records of jan2017articles.csv with largest number of comments from the original csv file
+
+sort -t, -k5 -n -r jan2017articles.csv | head
+
+
+Q11 (1p):
+Modify your previous script to receive a number as a parameter N and then show the top N entries with more comments
+
+A bash script was created in order to give the user the possibility of giving a number.
+
+#!/bin/bash
+read -p  "Give the number of entries with more comments you want to print:" N
+echo "The $N entries with the more comments are:"
+sort -t, -n -r -k5 jan2017articles.csv | head -$N
+
+Then we make our script executable with the command: chmode +x q11.sh
+And we run it: ./q11.sh
+
+
+Q12 (1p):
+Now we are going to create a new articles.csv where we get a different output data layout using awk tool
+INPUT: Post date,Content type,Author,Title,Comm count,Path,Tags,Word count
+OUTPUT: Title;Comment count;Word count;Post date
+
+awk -F, '{print $4"\t"$5"\t"$8"\t"$1}' jan2017articles.csv > newjan2017articles.csv
+
+
+Q13 (1p):
+Now create a new article2.csv format where we cut the Title text to 10 characters and we get only the last level of the Path
+
+The new file can be created by creating two files and merge them together:
+
+cut -d',' -f4 jan2017articles.csv | cut -c 1-10 > temp1.csv
+cut -d',' -f6 jan2017articles.csv | awk -F/ '{print $NF}' > temp2.csv
+paste -d, temp1.csv temp2.csv > article2.csv
+
+Or without creating intermediate files:
+
+cut -d',' -f4,6 jan2017articles.csv | awk -F, '{$1=substr($1,1,10)}1' OFS=, | awk -F, '{gsub(/.*\//,"",$2);print}' OFS=, > article2.csv

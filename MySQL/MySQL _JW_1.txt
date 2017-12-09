@@ -1,0 +1,269 @@
+
+Jeremy Johnathan Williams 
+MySQL Work
+December 10, 2017
+
+Q0.	Can you    describe	the	series	of  steps	to	open	a	database	for	querying?
+
+Step 1 - login into system
+Step 2 - open a terminal
+Step 3 - Open mysql database session:
+Step 4 - type: mysql -u root -p 
+mysql> mysql -u root -p
+Step 5 -(enter your root password)
+mysql> ******
+
+Step 6 - type: show databases; (This is to display the available databases)
+mysql> show databases;
+
++--------------------+
+| Database           |
++--------------------+
+| information        |
+| experiments        |
+| mysql              |
+| performance        |
++--------------------+
+
+Step 7 - Once selected database has been found (for example, "experiments"),
+         then type: use experiments;
+mysql> use experiments;
+database changed
+
+Q1.	What	is	the	purpose	of	this	query?	
+
+SELECT	*	from	Sources;
+
+mysql> Select * from Sources;
++--------+-------------+
+| exptId | source      |
++--------+-------------+
+| 1      | Pancreas    |
+| 2      | Liver       |
+| 4      | Human Liver |
++--------+-------------+
+3 rows in set (0,15 sec)
+
+->The purpose of this query is to get all the data available in table named "Sources".
+
+Q2.	Get	5	GenBank	ids	and	corresponding	descriptions	
+
+mysql> Select * from Descriptions limit 5;
++--------+-------------------------------------------+
+| gbId   | description                               |
++--------+-------------------------------------------+
+| A00142 | granulysin                                |
+| A00146 | lypase, gastric                           |
+| A03911 | seryne (or cysteine) proteinase inhibitor |
+| A06977 | albumin                                   |
+| A12027 | S100 calcium binding protein A8           |
++--------+-------------------------------------------+
+5 rows in set (0,00 sec)
+
+Q3.	What	is	the	purpose	of	this	query?	
+
+mysql> SELECT count(*) from LocusLinks;
++----------+
+| count(*) |
++----------+
+|       22 |
++----------+
+1 row in set (0,02 sec)
+
+-> The purpose of this query is to count attribute values of all data available in the table named "LocusLinks"
+
+
+Q4.	How	many	different	Affy	ids	are	in	the	expression	data?
+
+mysql> Select exptId, count(affyID) from Data group by exptId;
++--------+---------------+
+| exptId | count(affyID) |
++--------+---------------+
+| 1      |             3 |
+| 2      |             3 |
+| 3      |            15 |
+| 4      |             6 |
+| 5      |             4 |
+| 6      |             3 |
+| 7      |             1 |
+| 8      |             1 |
+| 9      |             1 |
++--------+---------------+
+9 rows in set (0,03 sec)
+
+Q5.	 What	 is	 the	 expression	 level	 of	 Affy	 id	 U95-32123_at	 in	 experiment	number	1?	
+
+mysql> select * from Data where affyId LIKE "U95-32123_at" and exptId =1;
++--------------+--------+-------+
+| affyId       | exptId | level |
++--------------+--------+-------+
+| U95-32123_at | 1      |   128 |
++--------------+--------+-------+
+1 row in set (0,03 sec)
+
+Q6.	 Find	 all	 the	 gene	 descriptions,	 along	 with	 their	 GenBank	 ids	containing	the	word	“Human”?	
+
+mysql> Select * from Descriptions where description like "%Human%";
++--------+---------------------------------------------------------+
+| gbId   | description                                             |
++--------+---------------------------------------------------------+
+| A12345 | HSLFBPS7 Human fructose-1, 6-biphosphatase              |
+| A12346 | HSU30872 Human mitosin mRNA                             |
+| A12347 | HSU33052 Human lipid-activated protein kinase           |
+| A12348 | HSU33053 Human lipid-activated protein kinase           |
+| A12349 | Human clone lambda 5 semaphorin mRNA                    |
+| A22124 | Human rearranged immunoglobulin lambda light chain mRNA |
+| A22127 | Human rearranged immunoglobulin lambda light chain mRNA |
++--------+---------------------------------------------------------+
+7 rows in set (0,04 sec)
+
+Q7.	 What	 Gene	 Ontology	 descriptions	 (and	 corresponding	 accession) contain	 the	 phrase	 “protein	 kinase”?	 
+Answer	 should	 be	 provided	 in	ascending	order	of	accessions.	
+
+mysql> Select * from Descriptions where description like "%protein kinase%" order by description ASC;
++--------+-----------------------------------------------+
+| gbId   | description                                   |
++--------+-----------------------------------------------+
+| A12347 | HSU33052 Human lipid-activated protein kinase |
+| A12348 | HSU33053 Human lipid-activated protein kinase |
++--------+-----------------------------------------------+
+2 rows in set (0,08 sec)
+
+Q8.	Which	AffyId	of	table	Data	correspond	to	sequences	in	
+Targets	table	with	the	phrase	“kinase”	in	their	description?	
+
+Use	the	following	command:	
+LOAD	DATA	INFILE	‘file.tsv’	INTO	TABLE	Targets;	
+To	add	a	new	entry	in	Descriptions	with	the	string	“kinase”	and	the	gbId=	“M18228”	
+Now	repeat	the	query	again	 
+
+mysql> Select Descriptions.description from Descriptions,Targets,Data 
+    -> where description like "%kinase%" and Data.affyId=Targets.affyId and Targets.gbId=Descriptions.gbId;
+Empty set (0,02 sec)
+
+mysql> load data local infile '/home/jeremy/pds/mysqlwork/file.tsv' into table Descriptions
+mysql> Insert into Descriptions (gbId, description) Values ("M18228", "kinase");
+mysql> Select Descriptions.description from Descriptions,Targets,Data 
+    -> Where description like "%kinase%" and Data.affyId=Targets.affyId and Targets.gbId=Descriptions.gbId;
+Empty set (0,01 sec)
+
+-> See attached "file.tsv" for your review.
+
+Q9.	 Get	 two	 affyId,	 uId	 and	 descriptions	 in	 LocusDescr	 in	reverse	alphabetical	order	of	descriptions.	
+
+mysql> select Targets.affyid, Unigenes.uid, LocusDescr.description from LocusDescr,Unigenes,LocusLinks,Targets 
+    -> where LocusDescr.linkid=Unigenes.linkid and Unigenes.linkid=LocusLinks.linkid and LocusLinks.gbid=Targets.gbid order by LocusDescr.description Desc limit 2;
++--------------+--------+-------------+
+| affyid       | uid    | description |
++--------------+--------+-------------+
+| U95_40474_at | Hs1691 | Glucan      |
+| U95_32123_at | Hs1640 | Collagen    |
++--------------+--------+-------------+
+2 rows in set (0,07 sec)
+
+Q10.	 How	 would	 you	 find	 the	 average	 expression	 level	 of	 each	
+experiment	in	Data?
+
+mysql> select exptid, avg(level) from Data group by exptid;
++--------+------------+
+| exptid | avg(level) |
++--------+------------+
+| 1      |   125.3333 |
+| 2      |    95.3333 |
+| 3      |   126.3333 |
+| 4      |    83.5000 |
+| 5      |    92.7500 |
+| 6      |    18.3333 |
+| 7      |    20.0000 |
+| 8      |    40.0000 |
+| 9      |    20.0000 |
++--------+------------+
+9 rows in set (0,06 sec)
+
+Q11.	 What	 is	 the	 average	 expression	 level	 of	 each	 array	 probe	 (affyId) across	all	experiments?	
+
+mysql> select affyid, avg(level) from Data group by affyid;
++---------------------------+------------+
+| affyid                    | avg(level) |
++---------------------------+------------+
+| 31315_at                  |   250.0000 |
+| 31324_at                  |    91.0000 |
+| 31325_at                  |    89.0000 |
+| 31356_at                  |    91.0000 |
+| 31362_at                  |   260.0000 |
+| 31510_s_at                |   257.0000 |
+| 5321_at                   |    90.0000 |
+| 5322_at                   |    90.0000 |
+| 5323_at                   |    90.0000 |
+| 5324_at                   |    73.5000 |
+| 5325_at                   |    90.0000 |
+| AFFX-BioB-3_at            |    97.0000 |
+| AFFX-BioB-5_at            |    20.0000 |
+| AFFX-BioB-M_at            |    62.8000 |
+| AFFX-HSAC07/X00351_M_at   |    86.0000 |
+| AFFX-HUMBAPDH/M33197_3_st |   277.0000 |
+| AFFX-HUMTFFR/M11507_at    |    90.0000 |
+| AFFX-M27830_3_at          |   271.0000 |
+| AFFX-MurIL10_at           |     6.6667 |
+| AFFX-MurIL2_at            |    20.0000 |
+| AFFX-MurIL4_at            |    49.0000 |
+| U95-32123_at              |   128.0000 |
+| U98-40474_at              |    57.0000 |
++---------------------------+------------+
+23 rows in set (0,09 sec)
+
+Q12.	What	is	the	purpose	of	the	following	query?		
+SELECT	Data.affyId, Data.leve, Data.exptId,	
+DataCopy.affyId, DataCopy.level, DataCopy.exptId	
+FROM	Data,	Data DataCopy	
+WHERE	Data.level>10*DataCopy.level	
+AND	Data.affyId=DataCopy.affyId	
+AND	Data.affyId	LIKE	"AFFX%"	
+LIMIT	10;
+
+mysql> SELECT Data.affyId, Data.level, Data.exptId,
+     -> DataCopy.affyId, DataCopy.level, DataCopy.exptId 
+     -> FROM Data, Data DataCopy 
+     -> WHERE Data.level > 10*DataCopy.level 
+     -> AND Data.affyId=DataCopy.affyId AND Data.affyId LIKE "AFFX%" 
+     -> LIMIT 10;
++----------------+-------+--------+----------------+-------+--------+
+| affyId         | level | exptId | affyId         | level | exptId |
++----------------+-------+--------+----------------+-------+--------+
+| AFFX-BioB-M_at |   214 | 5      | AFFX-BioB-M_at |    20 | 3      |
+| AFFX-BioB-M_at |   214 | 5      | AFFX-BioB-M_at |    20 | 7      |
+| AFFX-BioB-M_at |   214 | 5      | AFFX-BioB-M_at |    20 | 9      |
++----------------+-------+--------+----------------+-------+--------+
+3 rows in set (0,21 sec)
+
+-> The purpose of the query is to do a "Self  Table Join" from the "Data" table, by making a copy of the "Data" table (with columns - affyId, level and exptId), 
+giving the new table the name "DataCopy", getting all level data (in "Data" table) greater than ">" 10 times all level data (in DataCopy table), 
+getting all expressions data beginning with "AFFX" and  join "Data" table with "DataCopy" table (with a 10 data sets limit).   
+
+Q13.	Write	a	query	to	provide	three	different	descriptions	for	all	gbId	in	table	Targets
+
+mysql> select Targets.gbid, Descriptions.description, LocusDescr.description as LocusDescription, GO_Descr.description as Ontology_Description from Descriptions, Targets, LocusLinks, Ontologies, GO_Descr, LocusDescr where Targets.gbid=Descriptions.gbid and Targets.gbid=LocusLinks.gbid and LocusLinks.linkid=LocusDescr.linkid and LocusLinks.linkid=Ontologies.linkid and Ontologies.goacc=GO_Descr.goacc;
++--------+-------------+------------------+----------------------+
+| gbid   | description | LocusDescription | Ontology_Description |
++--------+-------------+------------------+----------------------+
+| S75295 | Glucan      | Glucan           | Glucan Enz           |
++--------+-------------+------------------+----------------------+
+1 row in set (0,11 sec)
+
+
+Q14.		Write	a	query	to	provide	all	gene	ontology	(GO_descr) descriptions	
+related	 with	 all	 species	 in	 table	 Species	 sorted	 alphabetically	 and	providing	 the	 first	 five	 results.	 Export	 the	 query	 to	 a	 tab-separated-file	with	the	command:	SELECT	*	FROM	TABLE	INTO	OUTFILE	(‘data.out’);
+
+mysql> Show variables like "secure_file_priv";                                 
++------------------+-----------------------+
+| Variable_name    | Value                 |
++------------------+-----------------------+
+| secure_file_priv | /var/lib/mysql-files/ |
++------------------+-----------------------+
+1 row in set (0,01 sec)
+
+mysql> Select GO_Descr.description into outfile '/var/lib/mysql-files/dataout.tsv' from GO_Descr, Ontologies, LocusLinks, Targets  where Targets.gbid=LocusLinks.gbid and LocusLinks.linkid=Ontologies.linkid and Ontologies.goacc=GO_Descr.goacc order by GO_Descr.description limit 5;
+Query OK, 5 rows affected (0,10 sec)
+
+-> See attached "dataout.tsv" for your review.
+
