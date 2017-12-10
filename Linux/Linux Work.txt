@@ -1,13 +1,12 @@
 Spyridoula Chrysikopoulou-Soldatou and Jeremy Williams
 
-Lab WK #1 - Module I: Linux scripting
+Lab WK #1 - Linux Scripting
 November 11, 2017
 
-Download jan2017articles.csv and example.bed files to solve the next
-questions.
+Download jan2017articles.csv and example.bed files.
 
 Q1(1 point):
-Take a look at the last 10 lines of the file. Which command are you going to use? 
+Take a look at the last 10 lines of the jan2017articles.cv file. Which command are you going to use? 
 Modify the command to show just the last line of the file.
 
 tail jan2017articles.csv
