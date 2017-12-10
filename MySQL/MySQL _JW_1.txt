@@ -3,7 +3,7 @@ Jeremy Williams
 MySQL Work
 December 10, 2017
 
-Q0.	Can you    describe	the	series	of  steps	to	open	a	database	for	querying?
+Q0:	Can you    describe	the	series	of  steps	to	open	a	database	for	querying?
 
 Step 1 - login into system
 Step 2 - open a terminal
@@ -30,7 +30,7 @@ Step 7 - Once selected database has been found (for example, "experiments"),
 mysql> use experiments;
 database changed
 
-Q1.	What	is	the	purpose	of	this	query?	
+Q1:	What	is	the	purpose	of	this	query?	
 
 SELECT	*	from	Sources;
 
@@ -46,7 +46,7 @@ mysql> Select * from Sources;
 
 ->The purpose of this query is to get all the data available in table named "Sources".
 
-Q2.	Get	5	GenBank	ids	and	corresponding	descriptions	
+Q2:	Get	5	GenBank	ids	and	corresponding	descriptions	
 
 mysql> Select * from Descriptions limit 5;
 +--------+-------------------------------------------+
@@ -60,7 +60,7 @@ mysql> Select * from Descriptions limit 5;
 +--------+-------------------------------------------+
 5 rows in set (0,00 sec)
 
-Q3.	What	is	the	purpose	of	this	query?	
+Q3:	What	is	the	purpose	of	this	query?	
 
 mysql> SELECT count(*) from LocusLinks;
 +----------+
@@ -73,7 +73,7 @@ mysql> SELECT count(*) from LocusLinks;
 -> The purpose of this query is to count attribute values of all data available in the table named "LocusLinks"
 
 
-Q4.	How	many	different	Affy	ids	are	in	the	expression	data?
+Q4:	How	many	different	Affy	ids	are	in	the	expression	data?
 
 mysql> Select exptId, count(affyID) from Data group by exptId;
 +--------+---------------+
@@ -91,7 +91,7 @@ mysql> Select exptId, count(affyID) from Data group by exptId;
 +--------+---------------+
 9 rows in set (0,03 sec)
 
-Q5.	 What	 is	 the	 expression	 level	 of	 Affy	 id	 U95-32123_at	 in	 experiment	number	1?	
+Q5:	 What	 is	 the	 expression	 level	 of	 Affy	 id	 U95-32123_at	 in	 experiment	number	1?	
 
 mysql> select * from Data where affyId LIKE "U95-32123_at" and exptId =1;
 +--------------+--------+-------+
@@ -117,7 +117,7 @@ mysql> Select * from Descriptions where description like "%Human%";
 +--------+---------------------------------------------------------+
 7 rows in set (0,04 sec)
 
-Q7.	 What	 Gene	 Ontology	 descriptions	 (and	 corresponding	 accession) contain	 the	 phrase	 “protein	 kinase”?	 
+Q7:	 What	 Gene	 Ontology	 descriptions	 (and	 corresponding	 accession) contain	 the	 phrase	 “protein	 kinase”?	 
 Answer	 should	 be	 provided	 in	ascending	order	of	accessions.	
 
 mysql> Select * from Descriptions where description like "%protein kinase%" order by description ASC;
@@ -129,7 +129,7 @@ mysql> Select * from Descriptions where description like "%protein kinase%" orde
 +--------+-----------------------------------------------+
 2 rows in set (0,08 sec)
 
-Q8.	Which	AffyId	of	table	Data	correspond	to	sequences	in	
+Q8:	Which	AffyId	of	table	Data	correspond	to	sequences	in	
 Targets	table	with	the	phrase	“kinase”	in	their	description?	
 
 Use	the	following	command:	
@@ -149,7 +149,7 @@ Empty set (0,01 sec)
 
 -> See attached "file.tsv" for your review.
 
-Q9.	 Get	 two	 affyId,	 uId	 and	 descriptions	 in	 LocusDescr	 in	reverse	alphabetical	order	of	descriptions.	
+Q9:	 Get	 two	 affyId,	 uId	 and	 descriptions	 in	 LocusDescr	 in	reverse	alphabetical	order	of	descriptions.	
 
 mysql> select Targets.affyid, Unigenes.uid, LocusDescr.description from LocusDescr,Unigenes,LocusLinks,Targets 
     -> where LocusDescr.linkid=Unigenes.linkid and Unigenes.linkid=LocusLinks.linkid and LocusLinks.gbid=Targets.gbid order by LocusDescr.description Desc limit 2;
@@ -161,7 +161,7 @@ mysql> select Targets.affyid, Unigenes.uid, LocusDescr.description from LocusDes
 +--------------+--------+-------------+
 2 rows in set (0,07 sec)
 
-Q10.	 How	 would	 you	 find	 the	 average	 expression	 level	 of	 each	
+Q10:	 How	 would	 you	 find	 the	 average	 expression	 level	 of	 each	
 experiment	in	Data?
 
 mysql> select exptid, avg(level) from Data group by exptid;
@@ -180,7 +180,7 @@ mysql> select exptid, avg(level) from Data group by exptid;
 +--------+------------+
 9 rows in set (0,06 sec)
 
-Q11.	 What	 is	 the	 average	 expression	 level	 of	 each	 array	 probe	 (affyId) across	all	experiments?	
+Q11:	 What	 is	 the	 average	 expression	 level	 of	 each	 array	 probe	 (affyId) across	all	experiments?	
 
 mysql> select affyid, avg(level) from Data group by affyid;
 +---------------------------+------------+
@@ -212,7 +212,7 @@ mysql> select affyid, avg(level) from Data group by affyid;
 +---------------------------+------------+
 23 rows in set (0,09 sec)
 
-Q12.	What	is	the	purpose	of	the	following	query?		
+Q12:	What	is	the	purpose	of	the	following	query?		
 SELECT	Data.affyId, Data.leve, Data.exptId,	
 DataCopy.affyId, DataCopy.level, DataCopy.exptId	
 FROM	Data,	Data DataCopy	
@@ -240,7 +240,7 @@ mysql> SELECT Data.affyId, Data.level, Data.exptId,
 giving the new table the name "DataCopy", getting all level data (in "Data" table) greater than ">" 10 times all level data (in DataCopy table), 
 getting all expressions data beginning with "AFFX" and  join "Data" table with "DataCopy" table (with a 10 data sets limit).   
 
-Q13.	Write	a	query	to	provide	three	different	descriptions	for	all	gbId	in	table	Targets
+Q13:	Write	a	query	to	provide	three	different	descriptions	for	all	gbId	in	table	Targets
 
 mysql> select Targets.gbid, Descriptions.description, LocusDescr.description as LocusDescription, GO_Descr.description as Ontology_Description from Descriptions, Targets, LocusLinks, Ontologies, GO_Descr, LocusDescr where Targets.gbid=Descriptions.gbid and Targets.gbid=LocusLinks.gbid and LocusLinks.linkid=LocusDescr.linkid and LocusLinks.linkid=Ontologies.linkid and Ontologies.goacc=GO_Descr.goacc;
 +--------+-------------+------------------+----------------------+
@@ -251,7 +251,7 @@ mysql> select Targets.gbid, Descriptions.description, LocusDescr.description as 
 1 row in set (0,11 sec)
 
 
-Q14.		Write	a	query	to	provide	all	gene	ontology	(GO_descr) descriptions	
+Q14:		Write	a	query	to	provide	all	gene	ontology	(GO_descr) descriptions	
 related	 with	 all	 species	 in	 table	 Species	 sorted	 alphabetically	 and	providing	 the	 first	 five	 results.	 Export	 the	 query	 to	 a	 tab-separated-file	with	the	command:	SELECT	*	FROM	TABLE	INTO	OUTFILE	(‘data.out’);
 
 mysql> Show variables like "secure_file_priv";                                 
