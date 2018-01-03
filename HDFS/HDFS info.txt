@@ -1,0 +1,10 @@
+
+In the folder hadoop...
+
+export PATH=/home/master/ppM/........../Escritorio/HDFS/hadoop-2.9.0/bin:$PATH
+
+# set to the root of your Java installation
+
+  export JAVA_HOME=/usr
+
+  bin/hadoop
