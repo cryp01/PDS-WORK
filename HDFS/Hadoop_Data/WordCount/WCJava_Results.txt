@@ -1,0 +1,589 @@
+[cloudera@quickstart WordCount]$ export PATH=${JAVA_HOME}/bin:${PATH}[cloudera@quickstart WordCount]$ export HADOOP_CLASSPATH=${JAVA_HOME}/lib/tools.jar
+[cloudera@quickstart WordCount]$ hadoop com.sun.tools.javac.Main WordCount.java 
+[cloudera@quickstart WordCount]$ jar cf wc.jar WordCount*.class[cloudera@quickstart WordCount]$ hadoop jar wc.jar WordCount /hduser/input/2000.txt /hduser/output6
+18/01/07 11:30:42 INFO client.RMProxy: Connecting to ResourceManager at /0.0.0.0:8032
+18/01/07 11:30:45 WARN mapreduce.JobResourceUploader: Hadoop command-line option parsing not performed. Implement the Tool interface and execute your application with ToolRunner to remedy this.
+18/01/07 11:30:46 INFO input.FileInputFormat: Total input paths to process : 1
+18/01/07 11:30:47 INFO mapreduce.JobSubmitter: number of splits:1
+18/01/07 11:30:48 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1515348085250_0005
+18/01/07 11:30:49 INFO impl.YarnClientImpl: Submitted application application_1515348085250_0005
+18/01/07 11:30:50 INFO mapreduce.Job: The url to track the job: http://quickstart.cloudera:8088/proxy/application_1515348085250_0005/
+18/01/07 11:30:50 INFO mapreduce.Job: Running job: job_1515348085250_0005
+18/01/07 11:31:28 INFO mapreduce.Job: Job job_1515348085250_0005 running in uber mode : false
+18/01/07 11:31:28 INFO mapreduce.Job:  map 0% reduce 0%
+18/01/07 11:32:07 INFO mapreduce.Job:  map 100% reduce 0%
+18/01/07 11:32:43 INFO mapreduce.Job:  map 100% reduce 100%
+18/01/07 11:32:44 INFO mapreduce.Job: Job job_1515348085250_0005 completed successfully
+18/01/07 11:32:45 INFO mapreduce.Job: Counters: 49
+	File System Counters
+		FILE: Number of bytes read=605509
+		FILE: Number of bytes written=1461017
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=2199045
+		HDFS: Number of bytes written=448894
+		HDFS: Number of read operations=6
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=2
+	Job Counters 
+		Launched map tasks=1
+		Launched reduce tasks=1
+		Data-local map tasks=1
+		Total time spent by all maps in occupied slots (ms)=33413
+		Total time spent by all reduces in occupied slots (ms)=33194
+		Total time spent by all map tasks (ms)=33413
+		Total time spent by all reduce tasks (ms)=33194
+		Total vcore-milliseconds taken by all map tasks=33413
+		Total vcore-milliseconds taken by all reduce tasks=33194
+		Total megabyte-milliseconds taken by all map tasks=34214912
+		Total megabyte-milliseconds taken by all reduce tasks=33990656
+	Map-Reduce Framework
+		Map input records=37861
+		Map output records=384260
+		Map output bytes=3688599
+		Map output materialized bytes=605509
+		Input split bytes=118
+		Combine input records=384260
+		Combine output records=40059
+		Reduce input groups=40059
+		Reduce shuffle bytes=605509
+		Reduce input records=40059
+		Reduce output records=40059
+		Spilled Records=80118
+		Shuffled Maps =1
+		Failed Shuffles=0
+		Merged Map outputs=1
+		GC time elapsed (ms)=904
+		CPU time spent (ms)=16800
+		Physical memory (bytes) snapshot=361431040
+		Virtual memory (bytes) snapshot=3015155712
+		Total committed heap usage (bytes)=226365440
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=2198927
+	File Output Format Counters 
+		Bytes Written=448894
+[cloudera@quickstart WordCount]$ hdfs dfs -ls /hduser/output6
+Found 2 items
+-rw-r--r--   1 cloudera supergroup          0 2018-01-07 11:32 /hduser/output6/_SUCCESS
+-rw-r--r--   1 cloudera supergroup     448894 2018-01-07 11:32 /hduser/output6/part-r-00000
+[cloudera@quickstart WordCount]$ hdfs dfs -cat /hduser/output6/part-r-00000
+»-Sosiégate,	1
+»-Sábete,	1
+»-Sí	1
+»-También	1
+»-Tú	1
+»-Ve	1
+»-Ya	1
+»-¡Ah!	1
+»-¡Ay,	3
+»-¡Válame	1
+»-¿Por	1
+»-¿Qué,	1
+»-¿Sábese,	1
+»A	4
+»Absorto,	1
+»Acabaron	1
+»Acertó	1
+»Admiró	1
+»Al	1
+»Alborotáronse	1
+»Andaba	1
+»Apenas	3
+»Aquella	1
+»Así	1
+»Atentísimo	1
+»Bien	3
+»Calló,	1
+»Cerca	1
+»Con	10
+»Contentísimo	1
+»Cuando	1
+»Cuatro	1
+»De	1
+»Demasiada	1
+»Desta	1
+»Digo,	6
+»Dimos	2
+»Duro	1
+»El	3
+»En	19
+»Encerrada	1
+»Entre	1
+»Es,	1
+»Escondido,	1
+»Escrito	1
+»Espantada	1
+»Esta	1
+»Estaba	1
+»Estaban	1
+»Estando	1
+»Estando,	1
+»Este	1
+»Esto	2
+»Estos	1
+»Finalmente,	1
+»Fue	1
+»Fuese	2
+»Fuimos	1
+»Habíanse	1
+»Hasta	1
+»Hecha	1
+»Hecho	2
+»Hízome	1
+»Hízose	1
+»Juntáronse	1
+»La	1
+»Leonela	2
+»Leímos	1
+»Llegué	1
+»Llegóse	1
+»Lleváronme	1
+»Los	1
+»Lotario	1
+»Luego	1
+»Mas,	1
+»Mirad,	1
+»Mirábala	1
+»Mucho	1
+»No	6
+»Notó	1
+»Otro	1
+»Partióse	1
+»Perdióse	1
+»Perdióse,	1
+»Pero	5
+»Pero,	2
+»Prometióselo	1
+»Pues	1
+»Pusimos	1
+»Quedaron	1
+»Quedé	1
+»Resolvióse,	1
+»Respondió	1
+»Rindióse	1
+»Rióse	1
+»Seis	1
+»Sentábase	1
+»Sosegóse	1
+»Sucedió	1
+»Sucedió,	4
+»Suspenso	1
+»También	2
+»Todas	3
+»Todo	4
+»Todos	1
+»Tomóle	1
+»Vengamos	1
+»Viendo	3
+»Volvimos	1
+»Volvió	1
+»Y	6
+»Y,	3
+»Yo	3
+»Yo,	1
+»¡Desdichado	1
+»¿Quién	1
+»Ésta,	1
+»Éstas	1
+»Éstas,	1
+»Éste	1
+»Ítem,	3
+¿A	3
+¿Adónde	3
+¿Ahora	3
+¿Ahora,	1
+¿Con	2
+¿Contra	1
+¿Cuál	1
+¿Cuándo	2
+¿Cuánto	1
+¿Cómo	14
+¿De	4
+¿Digo	2
+¿Duermes,	1
+¿Dónde	2
+¿Dónde,	1
+¿En	2
+¿Es	8
+¿Es,	2
+¿Ese	1
+¿Estamos	1
+¿Estoy	1
+¿Está	1
+¿Estáis	1
+¿Estás	1
+¿Faltaban	1
+¿Gobernador	1
+¿Ha	1
+¿Habrá	1
+¿Hanse	1
+¿Has	1
+¿Hase	1
+¿Haste	1
+¿Hay	3
+¿He	1
+¿Hele	1
+¿Hizo	1
+¿Hásele	1
+¿Jayanes	1
+¿No	37
+¿Nosotros	2
+¿O	1
+¿Para	1
+¿Parí	1
+¿Pensaba	1
+¿Pensará	1
+¿Pensáis	3
+¿Piensa	1
+¿Piensas	1
+¿Podré	1
+¿Por	10
+¿Pude	1
+¿Pude,	1
+¿Pues	1
+¿Puédese,	1
+¿Púsosela	1
+¿Que	2
+¿Queréis	1
+¿Queréislo	1
+¿Quiere	1
+¿Quieres	1
+¿Quién	28
+¿Quién,	1
+¿Quiéreste	1
+¿Qué	70
+¿Sabes	1
+¿Saldré	1
+¿Serán	1
+¿Si	3
+¿Son	1
+¿Soy	3
+¿Tales	1
+¿También	1
+¿Tan	2
+¿Tendrá	1
+¿Tenemos	1
+¿Tengo,	1
+¿Tiempos	1
+¿Tiene,	1
+¿Tú	2
+¿Va	1
+¿Vamos	1
+¿Vee	1
+¿Venís	1
+¿Ves	2
+¿Ves?	1
+¿Volveré	1
+¿Y	2
+¿Y,	1
+¿Yo	1
+¿a	5
+¿adónde	10
+¿agora	1
+¿azotarme	1
+¿besóla?	1
+¿bien	1
+¿comen?	1
+¿con	4
+¿conocístela	1
+¿crees	1
+¿cuál	4
+¿cuán	1
+¿cuándo	1
+¿cuándo,	1
+¿cuántas	1
+¿cuánto	3
+¿cuántos	1
+¿cómo	25
+¿cómo,	1
+¿cúyos	1
+¿de	7
+¿deshiciéronse?	1
+¿dices,	1
+¿duermes?	1
+¿dónde	11
+¿el	1
+¿en	6
+¿entra	1
+¿era	3
+¿eres	1
+¿es	11
+¿esta	2
+¿este	1
+¿esto	1
+¿está	1
+¿estás	1
+¿fue	1
+¿fuera	1
+¿ha	2
+¿habría	1
+¿habéisla	1
+¿había	1
+¿habían	1
+¿hallástete	1
+¿han	1
+¿has	2
+¿hasta	1
+¿hay	6
+¿háosla	1
+¿imprímese	1
+¿juré	1
+¿la	1
+¿lleva	1
+¿llevas	1
+¿lo	1
+¿mi	1
+¿no	26
+¿no?	1
+¿otra	1
+¿para	10
+¿parezco	1
+¿paréceos	2
+¿parécete	1
+¿piensa	1
+¿podrá	1
+¿podría	1
+¿por	18
+¿preguntaste	1
+¿promete	1
+¿pues	1
+¿que	1
+¿quiere	3
+¿quitar	1
+¿quién	47
+¿qué	126
+¿qué,	4
+¿qué?	2
+¿sabe	1
+¿sabríame	1
+¿sabéis	2
+¿saltear	1
+¿será	2
+¿sería	1
+¿si	1
+¿sois	1
+¿son	2
+¿sé	1
+¿también	2
+¿tan	1
+¿tienen	1
+¿tienes	1
+¿tiénesla	1
+¿todo	1
+¿traes	1
+¿traía	1
+¿tú	1
+¿un	1
+¿vale	1
+¿venta	1
+¿verdad	1
+¿vistes	1
+¿y	5
+¿ya	1
+¿Éste	1
+¿Úsase	1
+¿éste	1
+África,	3
+Álamos	1
+Álvaro	12
+Álvaro,	2
+Álvaro-,	2
+Álvaro-;	1
+Álvaro.	3
+Ándanla	1
+Ángel	1
+Ángel,	1
+Ángel;	1
+Árboles,	1
+Ármese	1
+Ávila,	1
+Él	21
+Él,	7
+Éntrale	1
+Éntrate,	1
+Ése	1
+Ésta	3
+Ésta,	1
+Éstas	1
+Éste	13
+Éste,	1
+Éstos	2
+Éstos,	1
+Íbanse	2
+Íbase	2
+Ínsula	1
+Úbeda	1
+Úbeda,	1
+Úbeda.	3
+Úbeda;	1
+ágil	3
+águila	1
+águila,	1
+águilas	1
+ál	2
+ál,	1
+álamo	2
+álcense	1
+ámbar	6
+ámbar,	1
+ámbar;	1
+ámbares	1
+ámexi'':	1
+ámexi'';	1
+áncoras	1
+ándase	1
+ándeme	3
+ándense	2
+ándese	2
+ángel	4
+ángel,	4
+ángel.	1
+ángeles	5
+ángeles;	1
+ángulos	2
+ánima	20
+ánima,	5
+ánima.	3
+ánimas	1
+ánimo	42
+ánimo,	14
+ánimo.	4
+ánimo;	5
+ánimos	4
+ánimos,	2
+ánimos;	1
+árabes,	1
+árbitros	1
+árbitros,	1
+árbol	16
+árbol,	11
+árboles	26
+árboles,	16
+árboles.	1
+árboles:	1
+áspera	5
+áspera,	1
+áspera;	1
+ásperamente	1
+áspero	8
+ásperos	2
+átomo	2
+átomo,	1
+átomos	4
+ébano,	1
+échase	2
+écheme	2
+échese	3
+écloga,	1
+églogas,	3
+él	1034
+él!	2
+él''.	2
+él,	168
+él-	3
+él-,	3
+él-.	2
+él.	16
+él:	3
+él;	12
+él?	4
+émula	1
+émulo	2
+éntrate,	2
+éntrese	1
+épica	1
+épico,	1
+érades	2
+éramos	8
+éramos,	2
+ésa	9
+ésa,	1
+ésas	5
+ésas,	1
+ése	8
+ése''.	1
+ése,	1
+ése?	2
+ésos	1
+ésos?	1
+ésta	62
+ésta,	7
+ésta.	1
+ésta:	3
+ésta;	2
+ésta?	3
+éstas	16
+éstas,	9
+éstas.	2
+éstas:	3
+éste	63
+éste!	2
+éste,	16
+éste.	2
+éste:	3
+éste?	4
+éstos	21
+éstos,	11
+éstos:	2
+éstos?	1
+íbades	1
+íbamos	3
+íbamos,	2
+íbase	1
+ídolo	1
+ímpetu	3
+ímpetu,	1
+ímpetus	1
+ímpetus.	1
+ínclitas	1
+ínclito	2
+índice	1
+ínfima	1
+ínsula	65
+ínsula,	37
+ínsula.	7
+ínsula:	1
+ínsula;	1
+ínsula?	4
+ínsulas	19
+ínsulas,	5
+ínsulas.	1
+ínsulas:	1
+ínsulas?	2
+ínsulo,	1
+ínsulos	2
+ínsulos.	1
+ínterin	1
+íntimo	2
+ñudos,	1
+ñudos;	1
+óiganme	1
+órdenes	10
+órdenes.	1
+órgano	1
+última	10
+última,	1
+últimamente	4
+últimamente,	1
+últimas	4
+último	25
+último,	1
+último:	1
+últimos	3
+única	5
+única,	1
+única.	1
+único	11
+único,	1
+únicos	1
+útil	4
+útiles	1
+

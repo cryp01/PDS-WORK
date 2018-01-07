@@ -1,0 +1,598 @@
+[cloudera@quickstart WordCount]$ export PATH=${JAVA_HOME}/bin:${PATH}
+[cloudera@quickstart WordCount]$ export HADOOP_CLASSPATH=${JAVA_HOME}/lib/tools.jar
+[cloudera@quickstart WordCount]$ hdfs dfs -ls /hduser/inputFound 3 items
+-rw-r--r--   1 cloudera supergroup    2198927 2018-01-02 14:33 /hduser/input/2000.txt
+drwxr-xr-x   - cloudera supergroup          0 2018-01-06 13:09 /hduser/input/output1
+-rw-r--r--   1 cloudera supergroup     888190 2018-01-06 07:16 /hduser/input/weather.txt
+[cloudera@quickstart WordCount]$ hadoop jar /usr/lib/hadoop-mapreduce/hadoop-streaming.jar -mapper /home/cloudera/Downloads/hadoop-data/WordCount/mapper.py -reducer /home/cloudera/Downloads/hadoop-data/WordCount/reducer.py -input /hduser/input/2000.txt -output /hduser/output5
+packageJobJar: [] [/usr/lib/hadoop-mapreduce/hadoop-streaming-2.6.0-cdh5.12.0.jar] /tmp/streamjob2957929078133895632.jar tmpDir=null
+18/01/07 10:40:44 INFO client.RMProxy: Connecting to ResourceManager at /0.0.0.0:8032
+18/01/07 10:40:45 INFO client.RMProxy: Connecting to ResourceManager at /0.0.0.0:8032
+18/01/07 10:40:48 INFO mapred.FileInputFormat: Total input paths to process : 1
+18/01/07 10:40:48 INFO mapreduce.JobSubmitter: number of splits:2
+18/01/07 10:40:50 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1515348085250_0004
+18/01/07 10:40:52 INFO impl.YarnClientImpl: Submitted application application_1515348085250_0004
+18/01/07 10:40:52 INFO mapreduce.Job: The url to track the job: http://quickstart.cloudera:8088/proxy/application_1515348085250_0004/
+18/01/07 10:40:52 INFO mapreduce.Job: Running job: job_1515348085250_0004
+18/01/07 10:41:42 INFO mapreduce.Job: Job job_1515348085250_0004 running in uber mode : false
+18/01/07 10:41:43 INFO mapreduce.Job:  map 0% reduce 0%
+18/01/07 10:42:53 INFO mapreduce.Job:  map 39% reduce 0%
+18/01/07 10:43:00 INFO mapreduce.Job:  map 54% reduce 0%
+18/01/07 10:43:01 INFO mapreduce.Job:  map 67% reduce 0%
+18/01/07 10:43:06 INFO mapreduce.Job:  map 100% reduce 0%
+18/01/07 10:43:50 INFO mapreduce.Job:  map 100% reduce 97%
+18/01/07 10:43:55 INFO mapreduce.Job:  map 100% reduce 100%
+18/01/07 10:43:56 INFO mapreduce.Job: Job job_1515348085250_0004 completed successfully
+18/01/07 10:43:57 INFO mapreduce.Job: Counters: 49
+	File System Counters
+		FILE: Number of bytes read=3688605
+		FILE: Number of bytes written=7758752
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=2203233
+		HDFS: Number of bytes written=448894
+		HDFS: Number of read operations=9
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=2
+	Job Counters 
+		Launched map tasks=2
+		Launched reduce tasks=1
+		Data-local map tasks=2
+		Total time spent by all maps in occupied slots (ms)=158242
+		Total time spent by all reduces in occupied slots (ms)=44311
+		Total time spent by all map tasks (ms)=158242
+		Total time spent by all reduce tasks (ms)=44311
+		Total vcore-milliseconds taken by all map tasks=158242
+		Total vcore-milliseconds taken by all reduce tasks=44311
+		Total megabyte-milliseconds taken by all map tasks=162039808
+		Total megabyte-milliseconds taken by all reduce tasks=45374464
+	Map-Reduce Framework
+		Map input records=37861
+		Map output records=384260
+		Map output bytes=2920079
+		Map output materialized bytes=3688611
+		Input split bytes=210
+		Combine input records=0
+		Combine output records=0
+		Reduce input groups=40059
+		Reduce shuffle bytes=3688611
+		Reduce input records=384260
+		Reduce output records=40059
+		Spilled Records=768520
+		Shuffled Maps =2
+		Failed Shuffles=0
+		Merged Map outputs=2
+		GC time elapsed (ms)=3102
+		CPU time spent (ms)=28210
+		Physical memory (bytes) snapshot=550154240
+		Virtual memory (bytes) snapshot=4525817856
+		Total committed heap usage (bytes)=391979008
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=2203023
+	File Output Format Counters 
+		Bytes Written=448894
+18/01/07 10:43:57 INFO streaming.StreamJob: Output directory: /hduser/output5
+[cloudera@quickstart WordCount]$ hdfs dfs -ls /hduser/output5
+Found 2 items
+-rw-r--r--   1 cloudera supergroup          0 2018-01-07 10:43 /hduser/output5/_SUCCESS
+-rw-r--r--   1 cloudera supergroup     448894 2018-01-07 10:43 /hduser/output5/part-00000
+[cloudera@quickstart WordCount]$ hdfs dfs -cat /hduser/output5/part-00000
+dejas	3
+dejar	109
+plectio.	1
+-Él	1
+oyeron,	2
+amigas:	1
+aprieto''.	1
+Viéndole	2
+vella	1
+Viéndola	1
+velle	1
+dejad	4
+dejan	18
+caballero,	146
+-¡oh	1
+Finalmente	1
+broches,	1
+adeliñase	1
+¡Vengan	1
+vinagre	1
+responderme	3
+vestirte	1
+Interés	5
+dirán,	1
+impuse,	1
+gastaban,	1
+coselete,	1
+Berbería;	4
+sendos	2
+Espejos:	1
+catedrático	1
+condenarme	1
+Espejos-	1
+Espejos,	9
+Espejos.	2
+Berbería.	2
+Berbería,	4
+tal	375
+tan	1217
+rape	1
+racimos	2
+chapín	1
+esperemos	1
+esterilidad	1
+jabalí	2
+quedando	5
+hueso	7
+manco,	1
+"Viose	1
+remediarlos,	2
+Respondiéronme	1
+guarden.	1
+precipitaba	1
+verlas,	2
+Bartolomé.	1
+bordón	1
+ta!	3
+defiendas	1
+montón	3
+avemarías,	2
+avemarías.	1
+deshonrada,	1
+»Hízose	1
+malezas	6
+ballena.	1
+Pintura	1
+nobles,	1
+bajel,	4
+muestra.	3
+hombruno;	1
+muestra,	5
+bajel;	1
+yegua-,	1
+descolgadas	1
+muestra:	1
+traído,	4
+presentaren.	1
+traído.	2
+BELIANÍS	1
+llevaban:	1
+llevaban;	2
+suspirar,	1
+choose	1
+Durandarte!	1
+abrió,	2
+creía,	3
+Durandarte.	1
+Durandarte,	5
+llevaban.	2
+llevaban,	5
+depositarlos	1
+Revulgo.	1
+sarta	6
+guardalla.	1
+Guisando,	3
+atreviera	2
+muestras	64
+Bretaña	4
+atreviere	1
+suyos.	2
+pesaría	1
+suyos,	9
+fresca.	1
+trae	46
+sobrenaturales,	1
+viciosos,	2
+mudaba	1
+cantor.	1
+creían	1
+traídos	2
+remate	5
+¿Si	3
+cofrecillo	2
+pífaro	3
+archivo.	1
+adarga	7
+notoria?	1
+grita	3
+seguidillas,	2
+rendirnos	1
+grito	1
+tragantón	1
+cautela	2
+Ave	1
+-¡Milagro,	1
+igualmente;	1
+borceguíes	3
+Nearly	1
+seguidillas?	1
+-¡Milagro!	1
+notoria!	1
+padre!	6
+Olivantes	1
+archivos	3
+desmesurada	3
+desmesurado	5
+morbo	1
+empacho,	1
+hallaste	3
+notorias	1
+-Llévele	1
+bausanes,	1
+tejido.	1
+gallardeó	1
+temerlo,	1
+reservado	2
+Quedará	1
+alongado	2
+guiada	1
+caballe-,	1
+principios	10
+vedo.	1
+bizarro,	1
+batalla.	9
+caldera:	1
+batalla!	1
+tersas	1
+batalla?	1
+tersan	1
+batalla;	6
+redújose	1
+estigio	1
+principio,	9
+principio.	1
+sonidos	1
+harón	1
+salió,	3
+cumpliéndosela,	1
+salió;	2
+arrojando	4
+soberbios;	1
+calderas	2
+remirado	1
+¡Desdichadas	1
+apropiado	1
+salimos	7
+LXIII.	1
+quedaban;	2
+batallas	8
+batallar	1
+vendó	1
+tambores	4
+percibieron	1
+den;	1
+acordase,	1
+lícito,	1
+erizaron	1
+den.	1
+echándonos	1
+prudentísimo	3
+estorbasen	1
+-Por	71
+ofrecen.	2
+DONOSO,	1
+generosos,	1
+ofrecen:	1
+significarme	1
+acordará	1
+madeja,	1
+noches,	4
+condecendió	1
+yedra	2
+caballo?,	1
+1.E	1
+hacíale	1
+1.C	1
+comedor,	1
+mostréis	2
+pareceres,	2
+librea,	1
+aplacara	1
+tuertos	6
+librea?	1
+tirándola	1
+toparemos	3
+escuchar,	1
+escuchar.	1
+repúblicas	4
+acompañen	1
+vistióle	1
+reservada	2
+vigor	1
+damiselas,	1
+tuerto,	2
+pestilencia	1
+pescados,	1
+ínsulos.	1
+sustancia	4
+libreas	3
+meterse	4
+delgada	2
+abollé,	1
+delgado	3
+criéme	1
+escuchare	1
+acompañe;	4
+escuchara	1
+expiriencia,	1
+república,	4
+''Ya,	1
+contentándose	1
+acompañe,	1
+joviales	1
+acompañe.	2
+ranciosos;	1
+azules,	3
+república;	2
+generations	1
+hidalguía,	2
+vejote,	1
+llegasen.	2
+apartarse	6
+caudalosos	1
+comunicado	2
+último	25
+última	10
+mayorales	1
+envilece;	1
+acostasen,	1
+puertas	24
+Bernardino	2
+hallara.	1
+alcancía	1
+maniatar	1
+términos	24
+tomáronse	2
+graves,	4
+arrepintió	1
+derribóle	1
+oposición	1
+entraros	1
+término,	5
+hallaran	2
+domingos,	1
+falsamente	1
+puerta:	3
+término;	1
+puerta,	18
+entraron	26
+puerta.	1
+dátil,	1
+quimera,	1
+derramaba,	1
+saludaban.	1
+averigüéle	1
+borricos,	1
+llegado	37
+borricos.	1
+profesamos,	2
+sintiólo	1
+profesamos.	1
+roznar	1
+conozcas,	1
+plega	6
+tormento	2
+borricos?	1
+cieno	3
+descompuesto,	1
+Hamete.	1
+curso.	1
+testimonio,	2
+curso;	1
+veniere	1
+Hamete:	2
+añadiendo	3
+usanza	13
+llegad,	1
+exhalaciones	1
+leyere.	2
+leyere,	2
+Cadells,	1
+manceba;	1
+agreement.	3
+agreement,	6
+Probó	1
+Vicente-;	1
+will	6
+cursos	1
+ofrezco	9
+acerada	2
+descompuestos	2
+acerado	1
+deseáis.	1
+Unicornio;	1
+adelantándose	1
+bajaba	5
+nublados;	1
+rara;	1
+conde,	5
+conde.	1
+marzo	2
+publicando	1
+emprincipio	1
+Laida	1
+remediarlas,	1
+forajidos	1
+jubilaba	1
+paseo),	1
+bachiller	66
+revueltas;	1
+Esquife,	1
+Niso	1
+éramos,	2
+condes	1
+difícilmente	1
+confundan	1
+médicos,	2
+veras;	6
+retumbaron.	1
+Wamba.	1
+púsosela	2
+atónita	1
+púsosele	1
+alegraba	2
+atónito	9
+buscaba	6
+acuerdo?	1
+acuerdo:	1
+escuderiles;	1
+patria	7
+acuerdo,	24
+acuerdo.	1
+Admiróle	1
+provision	1
+nidos	2
+rezar	3
+pago,	1
+engañosa,	1
+píctima	1
+tax	6
+desnudó,	1
+cuarenta,	2
+templos,	2
+hito,	4
+acuerdos	1
+murmurase,	1
+sanase	1
+pedazo	10
+Despertó	1
+dispuso,	1
+templos:	1
+know	1
+desconocida	3
+comencemos	1
+LIMITED	3
+probase	3
+idóneo	1
+-Tapaos,	1
+despáchenme	1
+derramaban	1
+entreoyóle	1
+hojuelas.	1
+because	1
+vizcaíno	11
+hollen	1
+uva.	1
+respuestas	7
+quietud	8
+zahorí	1
+volvérmelos	1
+cerrarán	1
+mancos	1
+remedialla	2
+leal	9
+díjele	2
+Señora!	1
+ventas	5
+hallaríamos,	1
+bajaron	2
+pensaba	57
+Clenardo.	1
+respuesta,	7
+respuesta.	2
+poeta	35
+renegados;	1
+cubra;	2
+viva;	1
+respuesta;	2
+creen,	1
+comenzamos,	1
+lea,	2
+inclino	1
+mengüe	1
+creen;	1
+incita,	1
+espías,	2
+ausentarse,	1
+Limpiólas	1
+libre''.	1
+desterrarme	1
+ejecución	17
+tenderse	2
+entraban	2
+jumá	1
+testimonios	1
+galgos,	2
+¿sé	1
+»Volvimos	1
+en	7898
+resonar	1
+empujaba	1
+Tomás	1
+moza	17
+haríamos	1
+matarle	1
+vizconde	1
+mozo	54
+querido.	1
+¿eres	1
+pergamino	2
+Curcios,	1
+acento,	2
+díjole:	12
+entraba,	1
+entraba.	1
+hereden	1
+embota	1
+holgaba	1
+descalabrar	1
+fundo	1
+-Hijo	1
+conformidad,	1
+funda	2
+debieron	8
+acentos	2
+bagajes	1
+limiten''.	1
+díjoles	2
+tocaron	2
+disfrazadas	1
+alcance	5
+sustentaría	1
+señor	732
+representaron	2
+endereza	4
+incitan	2
+añadidura	11
+regalado	2
+et	3
+vida-,	1
+regalada	1
+Fernán	1
+enderezo	1
+cincuenta	13
+Héctor,	2
+mandadería.	1
+Tus	2
+Rompió	1
+entierre,	1
+atento,	6
+despedirte,	1
+lance	1
+Consejo,	10
+designios,	3
+gallipavos	1
+desatinos,	4
+Consejo;	1
+yedra,	2
+-Sepamos	2
+dobló	4
+desaconsejaban,	1
+cupo,	1
+arrojarlos	1
+embotan	1
+bebiere;	1
+vendió,	1
+entierren	1
+fundir	1
+águilas	1
+reportóse	1
+
