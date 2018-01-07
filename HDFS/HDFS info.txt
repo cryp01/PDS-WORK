@@ -8,3 +8,29 @@ export PATH=/home/master/ppM/........../Escritorio/HDFS/hadoop-2.9.0/bin:$PATH
   export JAVA_HOME=/usr
 
   bin/hadoop
+
+export PATH=${JAVA_HOME}/bin:${PATH}
+
+
+
+export HADOOP_CLASSPATH=${JAVA_HOME}/lib/tools.jar
+
+
+
+hadoop com.sun.tools.javac.Main MaxTemperatureWithCombiner.java
+
+
+
+jar cf mtav.jar MaxTemperatureWithCombiner*.class
+
+
+
+hadoop jar mtvc.jar MaxTemperatureWithCombiner /hduser/input/weather.txt /hduser/output3
+
+
+
+hdfs dfs -ls /hduser/output3
+
+
+
+hdfs dfs -cat /hduser/output3/part-r-00000
