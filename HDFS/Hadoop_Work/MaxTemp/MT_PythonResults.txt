@@ -1,0 +1,82 @@
+[cloudera@quickstart MaxTemp]$ export PATH=${JAVA_HOME}/bin:${PATH}
+[cloudera@quickstart MaxTemp]$ export HADOOP_CLASSPATH=${JAVA_HOME}/lib/tools.jar
+[cloudera@quickstart MaxTemp]$  hadoop jar /usr/lib/hadoop-mapreduce/hadoop-streaming.jar -mapper /home/cloudera/Downloads/PythonWfiles/wmapper.py -reducer /home/cloudera/Downloads/PythonWfiles/wreducer.py -input /hduser/input/weather.txt -output /hduser/output12
+packageJobJar: [] [/usr/lib/hadoop-mapreduce/hadoop-streaming-2.6.0-cdh5.12.0.jar] /tmp/streamjob2587604803373663046.jar tmpDir=null
+18/01/13 10:17:51 INFO client.RMProxy: Connecting to ResourceManager at /0.0.0.0:8032
+18/01/13 10:17:52 INFO client.RMProxy: Connecting to ResourceManager at /0.0.0.0:8032
+18/01/13 10:17:59 INFO mapred.FileInputFormat: Total input paths to process : 1
+18/01/13 10:18:01 INFO mapreduce.JobSubmitter: number of splits:2
+18/01/13 10:18:05 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1515863574200_0003
+18/01/13 10:18:07 INFO impl.YarnClientImpl: Submitted application application_1515863574200_0003
+18/01/13 10:18:07 INFO mapreduce.Job: The url to track the job: http://quickstart.cloudera:8088/proxy/application_1515863574200_0003/
+18/01/13 10:18:07 INFO mapreduce.Job: Running job: job_1515863574200_0003
+18/01/13 10:19:25 INFO mapreduce.Job: Job job_1515863574200_0003 running in uber mode : false
+18/01/13 10:19:25 INFO mapreduce.Job:  map 0% reduce 0%
+18/01/13 10:22:57 INFO mapreduce.Job:  map 100% reduce 0%
+18/01/13 10:23:36 INFO mapreduce.Job:  map 100% reduce 100%
+18/01/13 10:23:40 INFO mapreduce.Job: Job job_1515863574200_0003 completed successfully
+18/01/13 10:23:42 INFO mapreduce.Job: Counters: 51
+	File System Counters
+		FILE: Number of bytes read=81035
+		FILE: Number of bytes written=543564
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=892502
+		HDFS: Number of bytes written=19
+		HDFS: Number of read operations=9
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=2
+	Job Counters 
+		Failed map tasks=4
+		Launched map tasks=6
+		Launched reduce tasks=1
+		Other local map tasks=4
+		Data-local map tasks=2
+		Total time spent by all maps in occupied slots (ms)=404360
+		Total time spent by all reduces in occupied slots (ms)=35177
+		Total time spent by all map tasks (ms)=404360
+		Total time spent by all reduce tasks (ms)=35177
+		Total vcore-milliseconds taken by all map tasks=404360
+		Total vcore-milliseconds taken by all reduce tasks=35177
+		Total megabyte-milliseconds taken by all map tasks=414064640
+		Total megabyte-milliseconds taken by all reduce tasks=36021248
+	Map-Reduce Framework
+		Map input records=6565
+		Map output records=6564
+		Map output bytes=67901
+		Map output materialized bytes=81041
+		Input split bytes=216
+		Combine input records=0
+		Combine output records=0
+		Reduce input groups=1
+		Reduce shuffle bytes=81041
+		Reduce input records=6564
+		Reduce output records=1
+		Spilled Records=13128
+		Shuffled Maps =2
+		Failed Shuffles=0
+		Merged Map outputs=2
+		GC time elapsed (ms)=2156
+		CPU time spent (ms)=11420
+		Physical memory (bytes) snapshot=543215616
+		Virtual memory (bytes) snapshot=4523978752
+		Total committed heap usage (bytes)=391979008
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=892286
+	File Output Format Counters 
+		Bytes Written=19
+18/01/13 10:23:42 INFO streaming.StreamJob: Output directory: /hduser/output12
+[cloudera@quickstart MaxTemp]$ hdfs dfs -ls /hduser/output12
+Found 2 items
+-rw-r--r--   1 cloudera supergroup          0 2018-01-13 10:23 /hduser/output12/_SUCCESS
+-rw-r--r--   1 cloudera supergroup         19 2018-01-13 10:23 /hduser/output12/part-00000
+[cloudera@quickstart MaxTemp]$ hdfs dfs -cat /hduser/output12/part-00000
+1901	46.6985070079
