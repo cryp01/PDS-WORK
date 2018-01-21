@@ -21,7 +21,11 @@ for line in sys.stdin:
 	
 
 #Reducer
-# making an average of airtemp for each year:
+# Getting each Year Count, Maximum Value of airtemp and Average Value of airtemp:
 for year in year2airtemp.keys():
+    max_airtemp = max(year2airtemp[year])
     ave_airtemp = sum(year2airtemp[year])*1.0 / len(year2airtemp[year])
+    print '%s\t%s'% (year, len(year2airtemp[year]))
+    print '%s\t%s'% (year, max_airtemp)
     print '%s\t%s'% (year, ave_airtemp)
+        
