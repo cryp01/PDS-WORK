@@ -77,8 +77,8 @@ public class AverageTemperature1 {
       Text sumText = new Text("average");
       for (IntWritable value : values) {
         sum += value.get();
+		count += 1;
       }
-          count += 1;
           average = sum/count;
           result.set(average);
           context.write(sumText, result);
