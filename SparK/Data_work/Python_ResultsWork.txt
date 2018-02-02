@@ -1,5 +1,5 @@
 
-//Counting words with Spark (Python)
+//Counting words with Spark (Python) 
 
 [cloudera@quickstart spark]$ pyspark
 Python 2.6.6 (r266:84292, Jul 23 2015, 15:22:56) 
